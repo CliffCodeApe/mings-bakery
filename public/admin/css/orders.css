@@ -1,0 +1,21 @@
+body, .content-wrapper {
+    background-color: var(--background) !important;
+    color: var(--text);
+}
+
+.btn-accent {
+    background-color: var(--accent);
+    color: white;
+}
+
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: white;
+}
+  
+.status-processing { background-color: var(--accent); }
+.status-delivered { background-color: #4CAF50; }
+.status-cancelled { background-color: #F44336; }

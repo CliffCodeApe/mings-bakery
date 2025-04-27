@@ -1,0 +1,36 @@
+/* Add this to register.css */
+.card {
+    border: none;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: scale(1.05); /* Slight zoom effect on hover */
+}
+
+.card-img-top {
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.card-body {
+    padding: 1.5rem;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.card-text {
+    font-size: 1rem;
+    color: var(--text);
+}
+
+.product-image {
+    height: 200px; /* Set a fixed height for all images */
+    width: 100%; /* Ensure the image takes up the full width of the card */
+    object-fit: cover; /* Maintain aspect ratio without distortion */
+    border-top-left-radius: 10px; /* Match the card's rounded corners */
+    border-top-right-radius: 10px;
+}

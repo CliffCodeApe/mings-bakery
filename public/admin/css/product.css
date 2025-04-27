@@ -1,0 +1,30 @@
+.btn-primary {
+  background-color: var(--accent);
+  border: none;
+}
+
+
+.btn-primary:hover {
+  background-color: #9e7935;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+}
+
+.table th {
+  background-color: var(--primary);
+}
+
+.badge.bg-success {
+  background-color: #28a745;
+}
+
+.badge.bg-secondary {
+  background-color: #6c757d;
+}
+
+.card-img-top {
+  height: 100px !important; /* You can adjust the height as needed */
+  object-fit: cover;
+}
