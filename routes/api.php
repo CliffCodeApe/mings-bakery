@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\OrderController;
 use App\Http\Middleware\JwtMiddleware;
 use App\Http\Middleware\CheckAdmin;
 
@@ -13,9 +14,19 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware([JwtMiddleware::class])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user', [AuthController::class, 'getUser']);
+
+    Route::get('/products', [ProductController::class, 'index']);
+    Route::get('/products/{id}', [ProductController::class, 'show']);
     Route::get('/products/images/{imageName}', [ProductController::class, 'getimage']);
 
+    Route::post('/orders/make', [OrderController::class, 'makeOrders']);
+    Route::get('/orders/user', [OrderController::class, 'userOrders']);
+
     Route::middleware([CheckAdmin::class])->group(function () {
-        Route::resource('/products', ProductController::class);
+        Route::post('/products', [ProductController::class, 'store']);
+        Route::put('/products/{id}', [ProductController::class, 'update']);
+        Route::delete('/products/{id}', [ProductController::class, 'destroy']);
+
+        Route::get('/orders/all', [OrderController::class, 'allOrders']);
     });
 });
