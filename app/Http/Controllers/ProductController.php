@@ -22,6 +22,10 @@ class ProductController extends Controller
     {
         $product = Product::find($id);
 
+        if (!$product) {
+            return response()->json(['message' => 'Product not found'], 404);
+        }
+
         return response()->json([
             'status' => 200,
             'message' => "Details of product with ID: $id",
@@ -61,7 +65,7 @@ class ProductController extends Controller
             $extension = $image->getClientOriginalExtension();
             $imageName = rand(100000, 999999) . '.' . $extension;
             $image->move(public_path('images'), $imageName);
-            $validatedData['image_url'] = env('APP_URL') . '/products/images/' . $imageName;
+            $validatedData['image_url'] = env('APP_URL') . '/api/products/images/' . $imageName;
         } else {
             $validatedData['image_url'] = null;
         }
@@ -146,6 +150,37 @@ class ProductController extends Controller
         return response()->json([
             'status' => 200,
             'message' => "Product with ID: $id deleted successfully"
+        ]);
+    }
+
+    public function search (Request $request) {
+        // Validate the search query
+        $validatedData = $request->validate([
+            'query' => 'sometimes|string|max:255',
+            'category' => 'sometimes|string|max:255',
+        ]);
+
+        $productsQuery = Product::query();
+
+        if (!empty($validatedData['query'])) {
+            $productsQuery->where(function ($query) use ($validatedData) {
+                $query->where('name', 'LIKE', "%{$validatedData['query']}%");
+            });
+        }
+
+        // Apply the category filter if provided
+        if (!empty($validatedData['category'])) {
+            $productsQuery->where('category', $validatedData['category']);
+        }
+
+        // Execute the query and get the results
+        $products = $productsQuery->get();
+
+        // Return the search results
+        return response()->json([
+            'status' => 200,
+            'message' => 'Search results retrieved successfully',
+            'data' => $products,
         ]);
     }
 }

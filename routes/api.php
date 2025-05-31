@@ -11,13 +11,14 @@ use App\Http\Middleware\CheckAdmin;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
+Route::get('/products', [ProductController::class, 'index']);
+Route::get('/products/search', [ProductController::class, 'search']);
+Route::get('/products/{id}', [ProductController::class, 'show']);
+Route::get('/products/images/{imageName}', [ProductController::class, 'getimage']);
+
 Route::middleware([JwtMiddleware::class])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/user', [AuthController::class, 'getUser']);
-
-    Route::get('/products', [ProductController::class, 'index']);
-    Route::get('/products/{id}', [ProductController::class, 'show']);
-    Route::get('/products/images/{imageName}', [ProductController::class, 'getimage']);
 
     Route::post('/orders/make', [OrderController::class, 'makeOrders']);
     Route::get('/orders/user', [OrderController::class, 'userOrders']);
@@ -28,5 +29,6 @@ Route::middleware([JwtMiddleware::class])->group(function () {
         Route::delete('/products/{id}', [ProductController::class, 'destroy']);
 
         Route::get('/orders/all', [OrderController::class, 'allOrders']);
+        Route::get('/orders/search', [OrderController::class, 'searchOrders']);
     });
 });

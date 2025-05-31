@@ -21,7 +21,9 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors()->toJson(), 422);
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 422);
         }
 
         $user = User::create([
@@ -41,15 +43,32 @@ class AuthController extends Controller
     // Login a user and return a JWT token
     public function login(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
         $credentials = $request->only('email', 'password');
 
         if (!$token = JWTAuth::attempt($credentials)) {
-            return response()->json(['error' => 'Invalid credentials'], 401);
+            return response()->json(['errors' => 'Wrong Email or Password'], 401);
+        }
+
+        $user = auth()->user();
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
         }
 
         return response()->json([
             'message' => 'Login successful',
-            'token' => $token
+            'token' => $token,
+            'user' => $user
         ]);
     }
 

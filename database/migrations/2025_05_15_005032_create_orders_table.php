@@ -18,6 +18,7 @@ return new class extends Migration
             $table->enum('type', ['pickup', 'delivery']);
             $table->enum('status', ['pending', 'processing', 'completed', 'cancelled'])->default('pending');
             $table->decimal('total', 10, 2);
+            $table->date('scheduled_date');
             $table->timestamps();
         });
     }
