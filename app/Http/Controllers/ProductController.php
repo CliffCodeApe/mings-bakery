@@ -117,7 +117,7 @@ class ProductController extends Controller
             $extension = $image->getClientOriginalExtension();
             $imageName = rand(100000, 999999) . '.' . $extension;
             $image->move(public_path('images'), $imageName);
-            $validatedData['image_url'] = env('APP_URL') . '/products/images/' . $imageName;
+            $validatedData['image_url'] = config('app.url') . '/api/products/images/' . $imageName;
         } else {
             $validatedData['image_url'] = $product->image_url;
         }

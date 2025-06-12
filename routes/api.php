@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\UserController;
 use App\Http\Middleware\JwtMiddleware;
 use App\Http\Middleware\CheckAdmin;
 
@@ -18,7 +19,7 @@ Route::get('/products/images/{imageName}', [ProductController::class, 'getimage'
 
 Route::middleware([JwtMiddleware::class])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
-    Route::get('/user', [AuthController::class, 'getUser']);
+    Route::get('/user', [UserController::class, 'getUser']);
 
     Route::post('/orders/make', [OrderController::class, 'makeOrders']);
     Route::get('/orders/user', [OrderController::class, 'userOrders']);
