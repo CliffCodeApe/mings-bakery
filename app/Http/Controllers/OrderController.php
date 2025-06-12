@@ -80,7 +80,7 @@ class OrderController extends Controller
     // Get all orders (Admin)
     public function allOrders()
     {
-        $orders = Order::with('users', 'items.product')->get();
+        $orders = Order::with('user', 'items.product')->get();
 
         return response()->json([
             'message' => 'All orders retrieved successfully',
@@ -109,4 +109,28 @@ class OrderController extends Controller
             'data' => $orders,
         ]);
     }
+
+    public function updateOrderStatus(Request $request, $orderId)
+{
+    $user = Auth::user();
+    if (!$user->is_admin) {
+        return response()->json(['error' => 'Only admins can update order status'], 403);
+    }
+
+    $validatedData = $request->validate([
+        'status' => 'required|string',
+    ]);
+
+    $order = Order::find($orderId);
+    if (!$order) {
+        return response()->json(['error' => 'Order not found'], 404);
+    }
+
+    $order->status = $validatedData['status'];
+    $order->save();
+
+    return response()->json([
+        'message' => 'Order status updated successfully',
+    ]);
+}
 }

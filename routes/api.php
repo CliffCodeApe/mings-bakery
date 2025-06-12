@@ -30,5 +30,6 @@ Route::middleware([JwtMiddleware::class])->group(function () {
 
         Route::get('/orders/all', [OrderController::class, 'allOrders']);
         Route::get('/orders/search', [OrderController::class, 'searchOrders']);
+        Route::put('/orders/{id}/status', [OrderController::class, 'updateOrderStatus']);
     });
 });
