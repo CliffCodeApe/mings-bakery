@@ -7,7 +7,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class Product extends Model
 {
-    use HasApiTokens;
+    use HasApiTokens, HasFactory;
     protected $guarded = ['id'];
 
     public function orderItems() {
